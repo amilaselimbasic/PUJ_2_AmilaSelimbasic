@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.amilaselimbasic.lifemanagement.financeapp.ui.MainForm">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="8" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="23" y="20" width="664" height="392"/>
+    </constraints>
+    <properties>
+      <background color="-11059370"/>
+      <font name="Times New Roman" size="11" style="1"/>
+      <foreground color="-10"/>
+      <inheritsPopupMenu value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="be895" class="javax.swing.JTextField" binding="txtAmount">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="7c27f" class="javax.swing.JTextField" binding="txtDescription">
+        <constraints>
+          <grid row="1" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="12e43" class="javax.swing.JComboBox" binding="cmbType">
+        <constraints>
+          <grid row="3" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="PRIHOD"/>
+            <item value=""/>
+            <item value="RASHOD"/>
+          </model>
+        </properties>
+      </component>
+      <component id="aca28" class="javax.swing.JComboBox" binding="cmbCategory">
+        <constraints>
+          <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="PLATA"/>
+            <item value="HRANA"/>
+            <item value="RACUNI"/>
+            <item value="ZABAVA"/>
+            <item value="PRIJEVOZ"/>
+            <item value="OSTALO"/>
+          </model>
+        </properties>
+      </component>
+      <component id="10771" class="javax.swing.JButton" binding="btnAdd">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-15457117"/>
+          <font name="Britannic Bold" size="14" style="1"/>
+          <foreground color="-788999"/>
+          <text value="DODAJ"/>
+        </properties>
+      </component>
+      <component id="677eb" class="javax.swing.JButton" binding="btnExport">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-4670950"/>
+          <font name="Colonna MT" size="14" style="1"/>
+          <text value="EXPORT"/>
+        </properties>
+      </component>
+      <component id="54dd4" class="javax.swing.JButton" binding="btnUpdate">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-14256623"/>
+          <font name="Britannic Bold" size="14" style="1"/>
+          <foreground color="-394241"/>
+          <hideActionText value="false"/>
+          <text value="AŽURIRAJ"/>
+        </properties>
+      </component>
+      <component id="aea95" class="javax.swing.JLabel" binding="lblAmount">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16448253"/>
+          <font name="Times New Roman" size="12" style="1"/>
+          <foreground color="-10"/>
+          <text value="IZNOS:"/>
+        </properties>
+      </component>
+      <component id="591a9" class="javax.swing.JLabel" binding="lblDescription">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1709585"/>
+          <font name="Times New Roman" size="12" style="1"/>
+          <foreground color="-1709585"/>
+          <text value="OPIS:"/>
+        </properties>
+      </component>
+      <component id="a32c8" class="javax.swing.JLabel" binding="lblType">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16448253"/>
+          <font name="Times New Roman" size="12" style="1"/>
+          <foreground color="-10"/>
+          <text value="VRSTA"/>
+        </properties>
+      </component>
+      <scrollpane id="3df7a" binding="tblScroll">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-11059370"/>
+          <font name="Times New Roman" size="12" style="0"/>
+          <foreground color="-10"/>
+        </properties>
+        <border type="none">
+          <font/>
+          <title-color color="-2104859"/>
+        </border>
+        <children>
+          <component id="fd81b" class="javax.swing.JTable" binding="tblTransactions">
+            <constraints/>
+            <properties>
+              <autoCreateRowSorter value="false"/>
+              <background color="-10"/>
+              <foreground color="-16448253"/>
+              <name value="id&#10;iznos&#10;opis&#10;vrsta"/>
+              <selectionForeground color="-16448253"/>
+              <toolTipText value="id&#10;iznos&#10;opis&#10;vrsta"/>
+              <visible value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="ab13" class="javax.swing.JButton" binding="btnDelete">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-8322301"/>
+          <font name="Britannic Bold" size="14" style="1"/>
+          <foreground color="-67333"/>
+          <text value="BRIŠI"/>
+        </properties>
+      </component>
+      <component id="62eb6" class="javax.swing.JLabel" binding="lblCategory">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1709585"/>
+          <font name="Times New Roman" size="12" style="1"/>
+          <foreground color="-10"/>
+          <text value="KATEGORIJA:"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
