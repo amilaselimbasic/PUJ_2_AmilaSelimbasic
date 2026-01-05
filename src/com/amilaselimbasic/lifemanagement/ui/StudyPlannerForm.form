@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.amilaselimbasic.lifemanagement.ui.StudyPlannerForm">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="497" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="7e649" class="javax.swing.JTable" binding="table1" default-binding="true">
+        <constraints border-constraint="North"/>
+        <properties/>
+      </component>
+      <grid id="da78" binding="btnPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="87842" class="javax.swing.JButton" binding="btnAddTask">
+            <constraints/>
+            <properties>
+              <text value="Dodaj zadatak"/>
+            </properties>
+          </component>
+          <component id="291e7" class="javax.swing.JButton" binding="btnMarkDone">
+            <constraints/>
+            <properties>
+              <text value="Označi kao uredno"/>
+            </properties>
+          </component>
+          <component id="d0bb8" class="javax.swing.JButton" binding="btnDeleteTask">
+            <constraints/>
+            <properties>
+              <text value="Obriši zadatak"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <scrollpane id="20709">
+        <constraints border-constraint="West"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </scrollpane>
+    </children>
+  </grid>
+</form>
