@@ -26,8 +26,15 @@ public class MainMenuForm {
             frame.setVisible(true);
         });
 
-        btnHabitTracker.addActionListener(e ->
-                JOptionPane.showMessageDialog(mainPanel, "modul će biti naknadno implementiran", "Info", JOptionPane.INFORMATION_MESSAGE)
+        btnHabitTracker.addActionListener(e -> {
+            HabitTrackerForm form=new HabitTrackerForm();
+            JFrame frame = new JFrame("Habit Tracker");
+            frame.setContentPane(form.getMainPanel());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+                }
         );
 
         btnSleepTracker.addActionListener(e ->
