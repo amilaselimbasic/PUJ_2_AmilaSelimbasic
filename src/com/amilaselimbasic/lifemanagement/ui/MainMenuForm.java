@@ -37,8 +37,15 @@ public class MainMenuForm {
                 }
         );
 
-        btnSleepTracker.addActionListener(e ->
-                JOptionPane.showMessageDialog(mainPanel, "modul ću implementirati kasnije", "Info", JOptionPane.INFORMATION_MESSAGE)
+        btnSleepTracker.addActionListener(e -> {
+            SleepTrackerForm form = new SleepTrackerForm();
+            JFrame frame = new JFrame("Sleep Tracker");
+            frame.setContentPane(form.getMainPanel());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+                }
         );
 
         btnStudyPlanner.addActionListener(e -> {
