@@ -1,11 +1,10 @@
 package com.amilaselimbasic.lifemanagement.ui;
 
 import com.amilaselimbasic.lifemanagement.model.SleepRecord;
+import com.amilaselimbasic.lifemanagement.db.SleepRecordService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SleepTrackerForm {
     private JPanel mainPanel;
@@ -14,21 +13,26 @@ public class SleepTrackerForm {
     private JButton btnDelete;
     private JScrollPane scrollPane;
 
-    private List<SleepRecord> records=new ArrayList<>();
+    private SleepRecordService sleepRecordService;
 
     public SleepTrackerForm () {
 
+        sleepRecordService=new SleepRecordService();
+
         initTable ();
+        refreshTable();
 
         btnAdd.addActionListener(e -> addRecord());
         btnDelete.addActionListener(e -> deleteRecord());
 
     }
 
+    //inicijalizacija tabele
+
     private void initTable () {
         tblSleep.setModel(new DefaultTableModel(
                 new Object[][] {},
-                new String []{"Datum", "Sati sna"}
+                new String []{"Datum", "Sati sna", "ID"}
         )
                           {
                               @Override public boolean isCellEditable (int row, int column) {
@@ -36,7 +40,17 @@ public class SleepTrackerForm {
                               }
                           }
         );
+
+        //sakrivanje ID kolone
+
+        tblSleep.getColumnModel().getColumn(2).setWidth(0);
+        tblSleep.getColumnModel().getColumn(2).setMaxWidth(0);
+        tblSleep.getColumnModel().getColumn(2).setMinWidth(0);
+
     }
+
+    //dodavanje zapisa
+
     private void addRecord() {
         String date =JOptionPane.showInputDialog(
                 mainPanel,
@@ -52,9 +66,9 @@ public class SleepTrackerForm {
 
         try {
             int hours = Integer.parseInt(hoursStr);
-            records.add(new SleepRecord(date,hours));
+            sleepRecordService.insertRecord(date,hours);
             refreshTable();
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(
                     mainPanel,
                     "Broj sati mora biti cijeli broj",
@@ -64,10 +78,13 @@ public class SleepTrackerForm {
         }
     }
 
+    //brisanje zapisa
+
     private void deleteRecord() {
         int row = tblSleep.getSelectedRow();
         if (row>=0) {
-            records.remove(row);
+            String id=tblSleep.getValueAt(row, 2).toString();
+            sleepRecordService.deleteRecord(id);
             refreshTable();
         }
         else {
@@ -80,14 +97,17 @@ public class SleepTrackerForm {
         }
     }
 
+    //učitavanje podataka iz baze
+
     private void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) tblSleep.getModel();
         model.setRowCount(0);
 
-        for (SleepRecord r : records) {
+        for (SleepRecord r : sleepRecordService.getAll()) {
             model.addRow(new Object[]{
                     r.getDate(),
-                    r.getHours()
+                    r.getHours(),
+                    r.getId()
             });
         }
     }

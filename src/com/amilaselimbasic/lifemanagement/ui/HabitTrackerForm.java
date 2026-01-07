@@ -1,11 +1,10 @@
 package com.amilaselimbasic.lifemanagement.ui;
 
 import com.amilaselimbasic.lifemanagement.model.Habit;
+import com.amilaselimbasic.lifemanagement.db.HabitService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HabitTrackerForm {
     private JTable tblHabits;
@@ -15,27 +14,43 @@ public class HabitTrackerForm {
     private JPanel mainPanel;
     private JScrollPane scrollPane;
 
-    private List<Habit> habits=new ArrayList<>();
+    private HabitService habitService;
 
     public HabitTrackerForm () {
+
+        habitService=new HabitService();
+
         initTable();
+        refreshTable();
+
         btnAddHabit.addActionListener(e -> addHabit());
         btnDeleteHabit.addActionListener(e -> deleteHabit());
         btnMarkDone.addActionListener(e -> markHabitDone());
 
     }
 
+    //inicijalizacija tabele
+
     private void initTable() {
         tblHabits.setModel(new DefaultTableModel(
                 new Object[][]{},
-                new String []{"Navika","Status"}
+                new String []{"Navika","Status", "ID"}
         ) {
             @Override
         public boolean isCellEditable(int row, int column){
             return false;
             }
         } );
+
+        //sakrivanje ID kolone
+
+        tblHabits.getColumnModel().getColumn(2).setMaxWidth(0);
+        tblHabits.getColumnModel().getColumn(2).setMaxWidth(0);
+        tblHabits.getColumnModel().getColumn(2).setWidth(0);
+
     }
+
+    //dodavanje navike
 
     private void addHabit() {
         String name=JOptionPane.showInputDialog(
@@ -44,16 +59,19 @@ public class HabitTrackerForm {
         );
 
         if(name !=null && !name.isEmpty()) {
-            habits.add(new Habit(name));
+            habitService.insertHabit(name);
             refreshTable();
         }
     }
+
+    //brisanje navike
 
     private void deleteHabit() {
         int row = tblHabits.getSelectedRow();
 
         if (row>=0) {
-            habits.remove(row);
+            String id = tblHabits.getValueAt(row,2).toString();
+            habitService.deleteHabit(id);
             refreshTable();
         }
         else {
@@ -65,12 +83,15 @@ public class HabitTrackerForm {
             );
         }
     }
+
+    //označavanje navike završenom
 
     private void markHabitDone(){
         int row=tblHabits.getSelectedRow();
 
         if (row>=0) {
-            habits.get(row).setDone(true);
+            String id = tblHabits.getValueAt(row, 2).toString();
+            habitService.markDone(id);
             refreshTable();
         }
         else {
@@ -83,14 +104,17 @@ public class HabitTrackerForm {
         }
     }
 
+    //učitavanje iz baze u tabelu
+
     private void refreshTable(){
         DefaultTableModel model=(DefaultTableModel) tblHabits.getModel();
         model.setRowCount(0);
 
-        for (Habit h:habits) {
+        for (Habit h: habitService.getAll()) {
             model.addRow(new Object[]{
                     h.getName(),
-                    h.isDone() ? "Završeno" : "Nije završeno"
+                    h.isDone() ? "Završeno" : "Nije završeno",
+                    h.getId()
             });
         }
     }

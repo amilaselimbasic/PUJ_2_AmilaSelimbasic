@@ -1,61 +1,73 @@
 package com.amilaselimbasic.lifemanagement.ui;
 
+import com.amilaselimbasic.lifemanagement.db.TaskService;
 import com.amilaselimbasic.lifemanagement.model.Task;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StudyPlannerForm {
 
     private JPanel mainPanel;
+    private JPanel btnPanel;
     private JTable table1;
     private JButton btnAddTask;
-    private JButton btnMarkDone;
     private JButton btnDeleteTask;
-    private JPanel btnPanel;
+    private JButton btnMarkDone;
+    private JScrollPane scrollPane;
 
-    private List<Task> tasks = new ArrayList<>();
+    private TaskService taskService;
 
     public StudyPlannerForm() {
 
+        taskService = new TaskService();
+
         initTable();
+        refreshTable();
 
         btnAddTask.addActionListener(e -> addTask());
         btnDeleteTask.addActionListener(e -> deleteTask());
         btnMarkDone.addActionListener(e -> markTaskDone());
     }
 
+    // inicijalizacija tabele
     private void initTable() {
         table1.setModel(new DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Zadatak", "Status"}
+                new String[]{"Zadatak", "Status", "ID"}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         });
+
+        // sakrivamo ID kolonu
+        table1.getColumnModel().getColumn(2).setMinWidth(0);
+        table1.getColumnModel().getColumn(2).setMaxWidth(0);
+        table1.getColumnModel().getColumn(2).setWidth(0);
     }
 
+    // dodavanje zadatka
     private void addTask() {
-        String taskName = JOptionPane.showInputDialog(
+        String name = JOptionPane.showInputDialog(
                 mainPanel,
                 "Unesite naziv zadatka"
         );
 
-        if (taskName != null && !taskName.isEmpty()) {
-            tasks.add(new Task(taskName));
+        if (name != null && !name.isEmpty()) {
+            taskService.insertTask(name);
             refreshTable();
         }
     }
 
+    // brisanje zadatka
     private void deleteTask() {
         int row = table1.getSelectedRow();
 
         if (row >= 0) {
-            tasks.remove(row);
+            String id = table1.getValueAt(row, 2).toString();
+            taskService.deleteTask(id);
             refreshTable();
         } else {
             JOptionPane.showMessageDialog(
@@ -67,11 +79,13 @@ public class StudyPlannerForm {
         }
     }
 
+    // označavanje zadatka kao završenog
     private void markTaskDone() {
         int row = table1.getSelectedRow();
 
         if (row >= 0) {
-            tasks.get(row).setDone(true);
+            String id = table1.getValueAt(row, 2).toString();
+            taskService.updateTaskDone(id, true);
             refreshTable();
         } else {
             JOptionPane.showMessageDialog(
@@ -83,14 +97,16 @@ public class StudyPlannerForm {
         }
     }
 
+    // osvježavanje tabele iz MongoDB
     private void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
         model.setRowCount(0);
 
-        for (Task t : tasks) {
+        for (Task t : taskService.getAll()) {
             model.addRow(new Object[]{
                     t.getName(),
-                    t.isDone() ? "Završeno" : "U toku"
+                    t.isDone() ? "Završeno" : "Nije završeno",
+                    t.getId()
             });
         }
     }
