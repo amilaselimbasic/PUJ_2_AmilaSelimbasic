@@ -1,29 +1,58 @@
 package com.amilaselimbasic.lifemanagement.model;
 
+// Klasa koja predstavlja jednog korisnika aplikacije
 public class User {
-    private String id;
-    private String username;
-    private String password;
-    private String role;
+
+    private String id;        // Jedinstveni ID korisnika iz MongoDB
+    private String username;  // Korisničko ime
+    private String password;  // Lozinka korisnika (u ovom projektu plain text)
+    private String theme;     // Odabrana tema (zelena, plava, roza, itd.)
 
     // Konstruktor sa 4 parametra
-    public User(String id, String username, String password, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    public User(String id, String username, String password, String theme) {
+        this.id = id;             // Postavljanje ID-a
+        this.username = username; // Postavljanje korisničkog imena
+        this.password = password; // Postavljanje lozinke
+        this.theme = theme;       // Postavljanje inicijalne teme
     }
 
-    // Getteri i setteri
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Getter za ID korisnika
+    public String getId() {
+        return id;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    // Setter za ID (ako bude potrebe za promjenom)
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    // Getter za korisničko ime
+    public String getUsername() {
+        return username;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    // Setter za korisničko ime
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Getter za lozinku
+    public String getPassword() {
+        return password;
+    }
+
+    // Setter za lozinku
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Getter za odabranu temu
+    public String getTheme() {
+        return theme;
+    }
+
+    // Setter za promjenu teme
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }

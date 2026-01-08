@@ -1,6 +1,7 @@
 package com.amilaselimbasic.lifemanagement.financeapp.db;
 
 import com.amilaselimbasic.lifemanagement.financeapp.model.Transaction;
+import com.amilaselimbasic.lifemanagement.session.CurrentUser;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -17,12 +18,8 @@ public class MongoService {
     private final MongoCollection<Document> collection; // tabela/collection
 
     public MongoService() {
-
         // koristim default localhost mongodb
-        String connectionString = "mongodb://localhost:27017";
-
-        // otvaram konekciju
-        mongoClient = MongoClients.create(connectionString);
+        mongoClient = MongoClients.create("mongodb://localhost:27017");
 
         // baza 'financeapp'
         MongoDatabase db = mongoClient.getDatabase("financeapp");
@@ -31,49 +28,50 @@ public class MongoService {
         collection = db.getCollection("transactions");
     }
 
-    // uzimam sve transakcije iz baze i prebacujem ih u Java listu
-    public List<Transaction> getAll() {
+    // uzimam sve transakcije jednog ulogovanog usera
+    public List<Transaction> getAllByUser() {
         List<Transaction> list = new ArrayList<>();
+        String userId = CurrentUser.getUserId(); // trenutni user
 
-        // find bez filtera -> sve
-        FindIterable<Document> docs = collection.find();
+        // ✅ nedostajao tačka-zarez
+        FindIterable<Document> docs = collection.find(Filters.eq("userId", userId));
 
         for (Document d : docs) {
-            // mongo pravi ObjectId pa ga prebacujem u string
             ObjectId id = d.getObjectId("_id");
-
             double amount = d.getDouble("amount");
             String desc = d.getString("description");
             String type = d.getString("type");
             String category = d.getString("category");
 
-            // ovdje koristim konstruktor sa ID-em
             list.add(new Transaction(id.toHexString(), amount, desc, type, category));
         }
+
         return list;
     }
 
     // unos nove transakcije
     public String insertTransaction(double amount, String description, String type, String category) {
+        String userId = CurrentUser.getUserId();
 
-        // pravim dokument koji ide u Mongo
-        Document doc = new Document("amount", amount)
+        Document doc = new Document("userId", userId)
+                .append("amount", amount)
                 .append("description", description)
                 .append("type", type)
                 .append("category", category);
 
         collection.insertOne(doc);
-
-        // vraćam hex id da ga GUI zna i koristi
         return doc.getObjectId("_id").toHexString();
     }
 
-    // update postojećeg dokumenta
+    // update postojećeg dokumenta (samo za trenutnog usera)
     public void updateTransaction(String id, double amount, String description, String type, String category) {
+        String userId = CurrentUser.getUserId();
 
-        // new ObjectId(id) jer je mongo ID specijalan tip
         collection.updateOne(
-                Filters.eq("_id", new ObjectId(id)),
+                Filters.and(
+                        Filters.eq("_id", new ObjectId(id)),
+                        Filters.eq("userId", userId)
+                ),
                 Updates.combine(
                         Updates.set("amount", amount),
                         Updates.set("description", description),
@@ -83,9 +81,16 @@ public class MongoService {
         );
     }
 
-    // brisanje po ID-u
+    // brisanje po ID-u (samo za trenutnog usera)
     public void deleteTransaction(String id) {
-        collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+        String userId = CurrentUser.getUserId();
+
+        collection.deleteOne(
+                Filters.and(
+                        Filters.eq("_id", new ObjectId(id)),
+                        Filters.eq("userId", userId)
+                )
+        );
     }
 
     // zatvaram konekciju na kraju programa

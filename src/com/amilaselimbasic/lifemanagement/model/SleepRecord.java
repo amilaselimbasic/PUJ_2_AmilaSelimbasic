@@ -1,26 +1,31 @@
 package com.amilaselimbasic.lifemanagement.model;
 
+// Klasa koja predstavlja zapis o spavanju korisnika
 public class SleepRecord {
 
-    private String id;
-    private String date;
-    private int hours;
+    private String id;      // Jedinstveni ID zapisa (iz MongoDB)
+    private String date;    // Datum zapisa (npr. "2026-01-08")
+    private int hours;      // Broj sati sna
 
-    public SleepRecord (String id, String date, int hours) {
-        this.id=id;
-        this.date=date;
-        this.hours=hours;
+    // Konstruktor klase
+    public SleepRecord(String id, String date, int hours) {
+        this.id = id;       // Postavljanje ID-a
+        this.date = date;   // Postavljanje datuma
+        this.hours = hours; // Postavljanje broja sati
     }
 
-    public String getId () {
+    // Getter za ID zapisa
+    public String getId() {
         return id;
     }
 
-    public String getDate () {
+    // Getter za datum
+    public String getDate() {
         return date;
     }
 
-    public int getHours () {
+    // Getter za broj sati sna
+    public int getHours() {
         return hours;
     }
 }

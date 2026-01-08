@@ -3,6 +3,7 @@ package com.amilaselimbasic.lifemanagement.financeapp.ui;
 
 import com.amilaselimbasic.lifemanagement.financeapp.db.MongoService;
 import com.amilaselimbasic.lifemanagement.financeapp.model.Transaction;
+import com.amilaselimbasic.lifemanagement.session.CurrentUser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,7 @@ public class MainForm {
     private JLabel lblDescription;
     private JLabel lblType;
     private JLabel lblCategory;
+    private JButton btnAnalytics;
 
     private MongoService mongoService;  // konekcija za bazu
     private String selectedId = null;
@@ -47,6 +49,10 @@ public class MainForm {
         btnUpdate.addActionListener(e -> updateTransaction());
         btnDelete.addActionListener(e -> deleteTransaction());
         btnExport.addActionListener(e -> exportToTXT());
+        btnAnalytics.addActionListener(e -> {
+            new FinanceAnalyticsFrame().setVisible(true);
+        });
+
 
         // kad kliknem u tabeli, da mi prebaci podatke u inpute
         tblTransactions.getSelectionModel().addListSelectionListener(e -> {
@@ -128,9 +134,9 @@ public class MainForm {
     }
 
     private void loadTableData() {
-
+        String userId=CurrentUser.getUserId();
         // lista svih transakcija  ovo dobijam iz MongoService
-        List<Transaction> all = mongoService.getAll();
+        List<Transaction> all = mongoService.getAllByUser();
 
         // pravim običnu 2D matricu jer nisam našla bolji način za JTable
         String[][] data = new String[all.size()][5];
@@ -168,8 +174,10 @@ public class MainForm {
 
     private void exportToTXT() {
 
+        String userId= CurrentUser.getUserId();
+
         // uzimam sve transakcije opet
-        List<Transaction> all = mongoService.getAll();
+        List<Transaction> all = mongoService.getAllByUser();
 
         double totalIncome = 0;
         double totalExpense = 0;
